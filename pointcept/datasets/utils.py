@@ -17,6 +17,9 @@ def collate_fn(batch):
     collate function for point cloud which support dict and list,
     'coord' is necessary to determine 'offset'
     """
+    # Filter out None samples
+    batch = [data for data in batch if data is not None]
+    if len(batch) == 0: return None # Return None if the whole batch is empty
     if not isinstance(batch, Sequence):
         raise TypeError(f"{batch.dtype} is not supported.")
 

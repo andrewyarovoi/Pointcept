@@ -806,6 +806,11 @@ class GridSample(object):
 
     def __call__(self, data_dict):
         assert "coord" in data_dict.keys()
+        if data_dict["coord"].shape[0] == 0:
+            # Handle empty point cloud gracefully
+            print(f"Warning: Skipping empty point cloud sample from {data_dict.get('file_path', 'unknown file')}")
+            return None
+
         scaled_coord = data_dict["coord"] / np.array(self.grid_size)
         grid_coord = np.floor(scaled_coord).astype(int)
         min_coord = grid_coord.min(0) * np.array(self.grid_size)

@@ -81,7 +81,8 @@ class DefaultDataset(Dataset):
             segment = data["semantic_gt"].reshape([-1])
         else:
             segment = np.ones(coord.shape[0]) * -1
-        data_dict = dict(coord=coord, normal=normal, color=color, segment=segment)
+        data_path = self.data_list[idx % len(self.data_list)]
+        data_dict = dict(coord=coord, normal=normal, color=color, segment=segment, file_path=data_path)
         return data_dict
 
     def get_data_name(self, idx):

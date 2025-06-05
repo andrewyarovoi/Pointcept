@@ -57,7 +57,7 @@ class SemanticKITTIDataset(DefaultDataset):
             seq_folder = os.path.join(self.data_root, "dataset", "sequences", seq)
             seq_files = sorted(os.listdir(os.path.join(seq_folder, "velodyne")))
             data_list += [
-                os.path.join(seq_folder, "velodyne", file) for file in seq_files
+                os.path.join(seq_folder, "velodyne", file) for file in seq_files if file.endswith(".bin")
             ]
         return data_list
 
@@ -77,7 +77,7 @@ class SemanticKITTIDataset(DefaultDataset):
                 ).astype(np.int32)
         else:
             segment = np.zeros(scan.shape[0]).astype(np.int32)
-        data_dict = dict(coord=coord, strength=strength, segment=segment)
+        data_dict = dict(coord=coord, strength=strength, segment=segment, file_path=data_path)
         return data_dict
 
     def get_data_name(self, idx):
